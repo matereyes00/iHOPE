@@ -12,20 +12,20 @@ var wms_layers = [];
                 url: 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
             })
         });
-var format_rg1baseadminboundsgridcopy_1 = new ol.format.GeoJSON();
-var features_rg1baseadminboundsgridcopy_1 = format_rg1baseadminboundsgridcopy_1.readFeatures(json_rg1baseadminboundsgridcopy_1, 
+var format_rg1_hexgrid_base_1 = new ol.format.GeoJSON();
+var features_rg1_hexgrid_base_1 = format_rg1_hexgrid_base_1.readFeatures(json_rg1_hexgrid_base_1, 
             {dataProjection: 'EPSG:4326', featureProjection: 'EPSG:3857'});
-var jsonSource_rg1baseadminboundsgridcopy_1 = new ol.source.Vector({
+var jsonSource_rg1_hexgrid_base_1 = new ol.source.Vector({
     attributions: ' ',
 });
-jsonSource_rg1baseadminboundsgridcopy_1.addFeatures(features_rg1baseadminboundsgridcopy_1);
-var lyr_rg1baseadminboundsgridcopy_1 = new ol.layer.Vector({
+jsonSource_rg1_hexgrid_base_1.addFeatures(features_rg1_hexgrid_base_1);
+var lyr_rg1_hexgrid_base_1 = new ol.layer.Vector({
                 declutter: false,
-                source:jsonSource_rg1baseadminboundsgridcopy_1, 
-                style: style_rg1baseadminboundsgridcopy_1,
-                popuplayertitle: "rg1-base-adminbounds-grid copy",
+                source:jsonSource_rg1_hexgrid_base_1, 
+                style: style_rg1_hexgrid_base_1,
+                popuplayertitle: "rg1_hexgrid_base",
                 interactive: true,
-                    title: '<img src="styles/legend/rg1baseadminboundsgridcopy_1.png" /> rg1-base-adminbounds-grid copy'
+                    title: '<img src="styles/legend/rg1_hexgrid_base_1.png" /> rg1_hexgrid_base'
                 });
 var format_rg1_candidatesites_2 = new ol.format.GeoJSON();
 var features_rg1_candidatesites_2 = format_rg1_candidatesites_2.readFeatures(json_rg1_candidatesites_2, 
@@ -73,28 +73,24 @@ var lyr_rg1_optimalsites_4 = new ol.layer.Vector({
                     title: '<img src="styles/legend/rg1_optimalsites_4.png" /> rg1_optimalsites'
                 });
 var group_rg1 = new ol.layer.Group({
-                                layers: [lyr_rg1baseadminboundsgridcopy_1,lyr_rg1_candidatesites_2,lyr_rg1_existingrhus_3,lyr_rg1_optimalsites_4,],
+                                layers: [lyr_rg1_hexgrid_base_1,lyr_rg1_candidatesites_2,lyr_rg1_existingrhus_3,lyr_rg1_optimalsites_4,],
                                 fold: "open",
                                 title: "rg1"});
-var group_rg9 = new ol.layer.Group({
-                                layers: [],
-                                fold: "open",
-                                title: "rg9"});
 
-lyr_OpenStreetMap_0.setVisible(true);lyr_rg1baseadminboundsgridcopy_1.setVisible(true);lyr_rg1_candidatesites_2.setVisible(true);lyr_rg1_existingrhus_3.setVisible(true);lyr_rg1_optimalsites_4.setVisible(true);
+lyr_OpenStreetMap_0.setVisible(true);lyr_rg1_hexgrid_base_1.setVisible(true);lyr_rg1_candidatesites_2.setVisible(true);lyr_rg1_existingrhus_3.setVisible(true);lyr_rg1_optimalsites_4.setVisible(true);
 var layersList = [lyr_OpenStreetMap_0,group_rg1];
-lyr_rg1baseadminboundsgridcopy_1.set('fieldAliases', {'fid': 'fid', 'bg_name': 'bg_name', 'cm_name': 'cm_name', 'pr_name': 'pr_name', 'Neighbors3': 'Neighbors3', 'Neighbors': 'Neighbors', });
+lyr_rg1_hexgrid_base_1.set('fieldAliases', {'fid': 'fid', 'bg_name': 'bg_name', 'cm_name': 'cm_name', 'pr_name': 'pr_name', 'Neighbors3': 'Neighbors3', 'Neighbors': 'Neighbors', });
 lyr_rg1_candidatesites_2.set('fieldAliases', {'fid': 'fid', 'bg_name': 'bg_name', 'cm_name': 'cm_name', 'pr_name': 'pr_name', 'Neighbors3': 'Neighbors3', 'Neighbors': 'Neighbors', });
 lyr_rg1_existingrhus_3.set('fieldAliases', {'fid': 'fid', 'bg_name': 'bg_name', 'cm_name': 'cm_name', 'pr_name': 'pr_name', 'Neighbors3': 'Neighbors3', 'Neighbors': 'Neighbors', });
 lyr_rg1_optimalsites_4.set('fieldAliases', {'fid': 'fid', 'bg_name': 'bg_name', 'cm_name': 'cm_name', 'pr_name': 'pr_name', 'Neighbors3': 'Neighbors3', 'Neighbors': 'Neighbors', });
-lyr_rg1baseadminboundsgridcopy_1.set('fieldImages', {'fid': 'TextEdit', 'bg_name': 'TextEdit', 'cm_name': 'TextEdit', 'pr_name': 'TextEdit', 'Neighbors3': 'TextEdit', 'Neighbors': 'TextEdit', });
+lyr_rg1_hexgrid_base_1.set('fieldImages', {'fid': 'TextEdit', 'bg_name': 'TextEdit', 'cm_name': 'TextEdit', 'pr_name': 'TextEdit', 'Neighbors3': 'TextEdit', 'Neighbors': 'TextEdit', });
 lyr_rg1_candidatesites_2.set('fieldImages', {'fid': 'TextEdit', 'bg_name': 'TextEdit', 'cm_name': 'TextEdit', 'pr_name': 'TextEdit', 'Neighbors3': 'TextEdit', 'Neighbors': 'TextEdit', });
 lyr_rg1_existingrhus_3.set('fieldImages', {'fid': 'TextEdit', 'bg_name': 'TextEdit', 'cm_name': 'TextEdit', 'pr_name': 'TextEdit', 'Neighbors3': 'TextEdit', 'Neighbors': 'TextEdit', });
 lyr_rg1_optimalsites_4.set('fieldImages', {'fid': 'TextEdit', 'bg_name': 'TextEdit', 'cm_name': 'TextEdit', 'pr_name': 'TextEdit', 'Neighbors3': 'TextEdit', 'Neighbors': 'TextEdit', });
-lyr_rg1baseadminboundsgridcopy_1.set('fieldLabels', {'fid': 'inline label - always visible', 'bg_name': 'no label', 'cm_name': 'inline label - always visible', 'pr_name': 'inline label - always visible', 'Neighbors3': 'no label', 'Neighbors': 'no label', });
-lyr_rg1_candidatesites_2.set('fieldLabels', {'fid': 'no label', 'bg_name': 'no label', 'cm_name': 'no label', 'pr_name': 'no label', 'Neighbors3': 'no label', 'Neighbors': 'no label', });
-lyr_rg1_existingrhus_3.set('fieldLabels', {'fid': 'no label', 'bg_name': 'no label', 'cm_name': 'no label', 'pr_name': 'no label', 'Neighbors3': 'no label', 'Neighbors': 'no label', });
-lyr_rg1_optimalsites_4.set('fieldLabels', {'fid': 'no label', 'bg_name': 'no label', 'cm_name': 'no label', 'pr_name': 'no label', 'Neighbors3': 'no label', 'Neighbors': 'no label', });
+lyr_rg1_hexgrid_base_1.set('fieldLabels', {'fid': 'header label - visible with data', 'bg_name': 'inline label - visible with data', 'cm_name': 'inline label - visible with data', 'pr_name': 'inline label - visible with data', 'Neighbors3': 'hidden field', 'Neighbors': 'hidden field', });
+lyr_rg1_candidatesites_2.set('fieldLabels', {'fid': 'header label - visible with data', 'bg_name': 'inline label - visible with data', 'cm_name': 'inline label - visible with data', 'pr_name': 'inline label - visible with data', 'Neighbors3': 'hidden field', 'Neighbors': 'hidden field', });
+lyr_rg1_existingrhus_3.set('fieldLabels', {'fid': 'header label - visible with data', 'bg_name': 'inline label - visible with data', 'cm_name': 'inline label - visible with data', 'pr_name': 'inline label - visible with data', 'Neighbors3': 'hidden field', 'Neighbors': 'hidden field', });
+lyr_rg1_optimalsites_4.set('fieldLabels', {'fid': 'header label - visible with data', 'bg_name': 'inline label - visible with data', 'cm_name': 'inline label - visible with data', 'pr_name': 'inline label - visible with data', 'Neighbors3': 'hidden field', 'Neighbors': 'hidden field', });
 lyr_rg1_optimalsites_4.on('precompose', function(evt) {
     evt.context.globalCompositeOperation = 'normal';
 });
