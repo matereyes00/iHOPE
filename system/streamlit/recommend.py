@@ -29,31 +29,36 @@ def recommend(os_df, rhus_per_city):
 
     # scaler = joblib.load('scaler.pkl')
     # Define the path to the .pkl file relative to the root of your GitHub repository
-    file_path = os.path.join(os.path.dirname(__file__), 'scaler.pkl')
+    scaler_file_path = os.path.join(os.path.dirname(__file__), 'scaler.pkl')
+    ANN_file_path = os.path.join(os.path.dirname(__file__), f'Neural_Network_model.pkl')
 
     # Check if the file exists in the specified path
-    if os.path.exists(file_path):
+    if os.path.exists(scaler_file_path):
         # Load the .pkl file using joblib
-        scaler = joblib.load(file_path)
-        st.write("Scaler loaded successfullyyyyyy.")
+        scaler = joblib.load(scaler_file_path)
+        # st.write("Scaler loaded successfullyyyyyy.")
         X_new = scaler.transform(filtered_df[['popden_wom', 'popden_chi', 'popden_w_1', 'popden_you', 'popden_eld', 'popden_all']])
+        for name in ['Neural_Network']:
+            if name == "Neural_Network":
+                if os.path.exists(ANN_file_path):
+                    model = joblib.load(ANN_file_path)
+                    print("ANN called successfullyyyyyyyyyy....")
+                    preds = model.predict(X_new)
+                    filtered_df[f'{name}_Prediction'] = preds
+
+        print(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
+        recommended_locations = {name: {} for name in ['Neural_Network']}
+        # st.write(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
+        all_locations = []
+        for city, num_rhus in rhus_per_city.items():
+            if num_rhus >= 1:
+                city_locations = filtered_df[filtered_df['city_name'] == city]
+                top_locations = city_locations.nlargest(num_rhus, f'{name.replace(" ", "_")}_Prediction')
+                recommended_locations[name][city] = top_locations['ID'].tolist()
+                # print(recommended_locations[name][city])
+                all_locations.append(recommended_locations[name][city])
+                st.write(f"{city} : {recommended_locations[name][city]}")
     else:
         st.error(f"File '{file_path}' not found.")
-    for name in ['Neural_Network']:
-        if name == "Neural_Network":
-            model = joblib.load(f'{name}_model.pkl')
-            preds = model.predict(X_new)
-            filtered_df[f'{name}_Prediction'] = preds
-
-    print(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
-    recommended_locations = {name: {} for name in ['Neural_Network']}
-    # st.write(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
-    all_locations = []
-    for city, num_rhus in rhus_per_city.items():
-        if num_rhus >= 1:
-            city_locations = filtered_df[filtered_df['city_name'] == city]
-            top_locations = city_locations.nlargest(num_rhus, f'{name.replace(" ", "_")}_Prediction')
-            recommended_locations[name][city] = top_locations['ID'].tolist()
-            # print(recommended_locations[name][city])
-            all_locations.append(recommended_locations[name][city])
-            st.write(f"{city} : {recommended_locations[name][city]}")
+    
+    
