@@ -27,33 +27,23 @@ def recommend(os_df, rhus_per_city):
     for group, weight in weights.items():
         filtered_df['Priority_Score'] += filtered_df[group] * weight
 
-    if os.path.exists('scaler.pkl'):
-        st.write("Scaler loaded successfully")
-        scaler = joblib.load(f'scaler.pkl')
-        X_new = scaler.transform(filtered_df[['popden_wom', 'popden_chi', 'popden_w_1', 'popden_you', 'popden_eld', 'popden_all']])
-        for name in ['Neural_Network']:
-            if name == "Neural_Network":
-                # Check if the file exists in the specified path
-                if os.path.exists(f'{name}_model.pkl'):
-                    st.write("Model loaded successfully.")
-                    model = joblib.load(f'{name}_model.pkl')
-                    preds = model.predict(X_new)
-                    filtered_df[f'{name}_Prediction'] = preds
-                else:
-                    st.error(f"File '{file_path}' not found. Please check the path and ensure the file is in the correct directory.")
-                
+    scaler = joblib.load('scaler.pkl')
+    X_new = scaler.transform(filtered_df[['popden_wom', 'popden_chi', 'popden_w_1', 'popden_you', 'popden_eld', 'popden_all']])
+    for name in ['Neural_Network']:
+        if name == "Neural_Network":
+            model = joblib.load(f'{name}_model.pkl')
+            preds = model.predict(X_new)
+            filtered_df[f'{name}_Prediction'] = preds
 
-        print(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
-        recommended_locations = {name: {} for name in ['Neural_Network']}
-        # st.write(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
-        all_locations = []
-        for city, num_rhus in rhus_per_city.items():
-            if num_rhus >= 1:
-                city_locations = filtered_df[filtered_df['city_name'] == city]
-                top_locations = city_locations.nlargest(num_rhus, f'{name.replace(" ", "_")}_Prediction')
-                recommended_locations[name][city] = top_locations['ID'].tolist()
-                # print(recommended_locations[name][city])
-                all_locations.append(recommended_locations[name][city])
-                st.write(f"{city} : {recommended_locations[name][city]}")
-    else:
-        st.write("Scaler doesnt exist")
+    print(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
+    recommended_locations = {name: {} for name in ['Neural_Network']}
+    # st.write(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
+    all_locations = []
+    for city, num_rhus in rhus_per_city.items():
+        if num_rhus >= 1:
+            city_locations = filtered_df[filtered_df['city_name'] == city]
+            top_locations = city_locations.nlargest(num_rhus, f'{name.replace(" ", "_")}_Prediction')
+            recommended_locations[name][city] = top_locations['ID'].tolist()
+            # print(recommended_locations[name][city])
+            all_locations.append(recommended_locations[name][city])
+            st.write(f"{city} : {recommended_locations[name][city]}")
