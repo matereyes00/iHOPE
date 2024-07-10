@@ -7,6 +7,8 @@ import recommend
 import path 
 import sys
 import pickle
+from io import StringIO
+import requests
 
 
 st.title("I-HOPE")
@@ -14,20 +16,25 @@ st.title("I-HOPE")
 # List all files in the current directory
 current_directory = os.getcwd()
 file_list = os.listdir(current_directory)
-path='iHOPE/system/streamlit/'
-df = pd.read_csv('../streamlit/health_facilities_with_coordinates.csv')
-selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
-df = df[selected_columns]
-df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
-df = df.dropna()
+existing_rhus_df='https://raw.githubusercontent.com/matereyes00/iHOPE/iHOPE_ver1.0/system/streamlit/health_facilities_with_coordinates.csv'
+response = requests.get(existing_rhus_df)
+if response.status_code == 200:
+    df = pd.read_csv(StringIO(response.text))
+    selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
+    df = df[selected_columns]
+    df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
+    df = df.dropna()
 
-st.write("## System Description")
-text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
-st.write(text)
-st.write("## System Components:")
-st.write("### Existing RHUs:")
-st.write(df)
-st.map(df)
+    st.write("## System Description")
+    text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
+    st.write(text)
+    st.write("## System Components:")
+    st.write("### Existing RHUs:")
+    st.write(df)
+    st.map(df)
+else:
+    st.error("Failed to load data from GitHub.")
+
 
 regions = [
     "Region I", "CAR", "Region II", "Region III", "Region IV-A", 
