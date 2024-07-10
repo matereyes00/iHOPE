@@ -44,11 +44,12 @@ namex==0.0.8
 numpy==1.26.4
 opt-einsum==3.3.0
 optree==0.12.1
-ortools==9.5.2237
+ortools==9.10.4067
 packaging==24.0
 pandas==2.2.2
+path==16.14.0
 pillow==10.3.0
-protobuf>=4.21.5
+protobuf==4.25.3
 pyarrow==16.1.0
 pydeck==0.9.1
 Pygments==2.18.0
@@ -80,6 +81,7 @@ tornado==6.4
 typing_extensions==4.12.0
 tzdata==2024.1
 urllib3==2.2.1
+utils==1.0.2
 Werkzeug==3.0.3
 wrapt==1.16.0
 xyzservices==2024.4.0

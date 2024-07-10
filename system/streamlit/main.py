@@ -7,14 +7,19 @@ import os
 # from streamlit_folium import st_folium
 import optimal
 import recommend
+# from utils import wrangle
+import path 
+import sys
+import pickle
 
-html_file_path = "./qgis2web_2024_05_29-11_00_56_078368/index.html"
-# gpkg_path = "../../CandidateSites/rg1-hex-grid.gpkg"
-gpkg_path = "../../CandidateSites/rg1_hexgrid.geojson"
+dir = path.Path(__file__).abspath()
+sys.path.append(dir.parent.parent)
 x = "../../CandidateSites/rg1-clusters.csv"
+# Get the current working directory
+current_dir = os.getcwd()
+# Construct the absolute path
+absolute_path = os.path.join(current_dir, relative_path)
 rg1_clustered_df = pd.read_csv(x)
-# hexagons = gpd.read_file(gpkg_path)
-# print(hexagons)
 
 st.title("I-HOPE")
 df = pd.read_csv('health_facilities_with_coordinates.csv')
