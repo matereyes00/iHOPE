@@ -3,8 +3,8 @@ import streamlit.components.v1 as components
 import pandas as pd
 import os
 # import geopandas as gpd
-import folium
-from streamlit_folium import st_folium
+# import folium
+# from streamlit_folium import st_folium
 import optimal
 import recommend
 
