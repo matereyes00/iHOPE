@@ -12,20 +12,12 @@ import path
 import sys
 import pickle
 
-# Determine the absolute path of the current script
 current_script_path = os.path.abspath(__file__)
-# Navigate up two directories to get to the project root
 project_root = os.path.abspath(os.path.join(current_script_path, '..', '..',))
-# Add the project root to the system path to access modules
 sys.path.append(project_root)
-# Define the path to the model
 path_to_model = os.path.join(project_root, 'CandidateSites', 'rg1-clusters.csv')
 
-# dir = path.Path(__file__).abspath()
-# sys.path.append(dir.parent.parent)
 # x = "../../CandidateSites/rg1-clusters.csv"
-# Get the current working directory
-# Construct the absolute path
 if os.path.exists(path_to_model):
     rg1_clustered_df = pd.read_csv(path_to_model)
 
