@@ -14,8 +14,7 @@ st.title("I-HOPE")
 # List all files in the current directory
 current_directory = os.getcwd()
 file_list = os.listdir(current_directory)
-existing_rhus_df = 'health_facilities_with_coordinates.csv'
-df = pd.read_csv(existing_rhus_df)
+df = pd.read_csv(r'health_facilities_with_coordinates.csv')
 selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
 df = df[selected_columns]
 df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
