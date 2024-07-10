@@ -43,6 +43,13 @@ selected_region = st.selectbox("Select a Region", regions)
 st.write(f"You selected: {selected_region}")
 st.write("## Display Candidate Sites")
 if selected_region == "Region I":
+    # execute BPNN application here
+    # call model
+
+
+
+
+
     cs_df = pd.read_csv('../../CandidateSites/rg1candidate_sites.csv')
     st.write(f"#### {len(cs_df['ID'])} Candidate Sites")
     cs_df['ID'] = cs_df['ID'].astype(int)
@@ -65,7 +72,7 @@ if selected_region == "Region I":
     st.write(f"Original HCFAI: {og_HCFAI}")
     st.write(f"Updated HCFAI: {updated_HCFAI}")
     st.write(selected_facilities_df[['ID', 'RHU_Presence', 'HCFAI']])
-    st.write("""<div style="width:100%;text-align:center;"><a href="https://matereyes00.github.io/iHOPE/rg1_map/"</a>Region 1</div>""", unsafe_allow_html=True)
+    st.write("""<div style="width:100%;text-align:center;"><a href="https://matereyes00.github.io/iHOPE/rg1map/"</a>Region 1</div>""", unsafe_allow_html=True)
 
 st.write("## Cities needing RHUs: ")
 os = list(set(selected_facilities_df['ID']))
