@@ -15,37 +15,21 @@ st.title("I-HOPE")
 current_directory = os.getcwd()
 file_list = os.listdir(current_directory)
 existing_rhus_df = 'health_facilities_with_coordinates.csv'
-if existing_rhus_df in file_list:
-    df = pd.read_csv(existing_rhus_df)
-    selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
-    df = df[selected_columns]
-    df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
-    df = df.dropna()
-    # st.write(df)
-
-    st.write("## System Description")
-    text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
-    st.write(text)
-    st.write("## System Components:")
-    st.write("### Existing RHUs:")
-    st.write(df)
-    st.map(df)
-
-# df = pd.read_csv(existing_rhus_df)
-# selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
-# df = df[selected_columns]
-# df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
-# df = df.dropna()
-
-# st.write("## System Description")
-# text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
-# st.write(text)
-# st.write("## System Components:")
-# st.write("### Existing RHUs:")
+df = pd.read_csv(existing_rhus_df)
+selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
+df = df[selected_columns]
+df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
+df = df.dropna()
 # st.write(df)
-# st.map(df)
 
-# Define the list of regions
+st.write("## System Description")
+text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
+st.write(text)
+st.write("## System Components:")
+st.write("### Existing RHUs:")
+st.write(df)
+st.map(df)
+
 regions = [
     "Region I", "CAR", "Region II", "Region III", "Region IV-A", 
     "Region IV-B", "Region V", "Region VI", 
