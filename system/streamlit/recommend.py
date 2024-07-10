@@ -27,8 +27,18 @@ def recommend(os_df, rhus_per_city):
     for group, weight in weights.items():
         filtered_df['Priority_Score'] += filtered_df[group] * weight
 
-    scaler = joblib.load('scaler.pkl')
-    X_new = scaler.transform(filtered_df[['popden_wom', 'popden_chi', 'popden_w_1', 'popden_you', 'popden_eld', 'popden_all']])
+    # scaler = joblib.load('scaler.pkl')
+    # Define the path to the .pkl file relative to the root of your GitHub repository
+    file_path = os.path.join(os.path.dirname(__file__), 'scaler.pkl')
+
+    # Check if the file exists in the specified path
+    if os.path.exists(file_path):
+        # Load the .pkl file using joblib
+        scaler = joblib.load(file_path)
+        st.write("Scaler loaded successfullyyyyyy.")
+        X_new = scaler.transform(filtered_df[['popden_wom', 'popden_chi', 'popden_w_1', 'popden_you', 'popden_eld', 'popden_all']])
+    else:
+        st.error(f"File '{file_path}' not found.")
     for name in ['Neural_Network']:
         if name == "Neural_Network":
             model = joblib.load(f'{name}_model.pkl')
