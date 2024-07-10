@@ -75,19 +75,19 @@ if selected_region == "Region I":
         st.write(selected_facilities_df[['ID', 'RHU_Presence', 'HCFAI']])
         st.write("""<div style="width:100%;text-align:center;"><a href="https://matereyes00.github.io/iHOPE/rg1map/"</a>Region 1</div>""", unsafe_allow_html=True)
 
-st.write("## Cities needing RHUs: ")
-st.write("Based on the number of optimal sites you specified above, this section automatically generates the number of RHUs needed in the cities")
-os = list(set(selected_facilities_df['ID']))
+        st.write("## Cities needing RHUs: ")
+        st.write("Based on the number of optimal sites you specified above, this section automatically generates the number of RHUs needed in the cities")
+        os = list(set(selected_facilities_df['ID']))
 
-x = "rg1-clusters.csv"
-if x in file_list:
-    rg1_clustered_df = pd.read_csv(x)
-    os_df, rhus_per_city = optimal.MCLP(os, rg1_clustered_df)
-    # st.write(rhus_per_city)
-    for key, value in rhus_per_city.items():
-        if value:
-            st.write(f"{key}: {value}")
+        x = "rg1-clusters.csv"
+        if x in file_list:
+            rg1_clustered_df = pd.read_csv(x)
+            os_df, rhus_per_city = optimal.MCLP(os, rg1_clustered_df)
+            # st.write(rhus_per_city)
+            for key, value in rhus_per_city.items():
+                if value:
+                    st.write(f"{key}: {value}")
 
-    st.write("## Display Prioritized Sites")
-    st.write("Based on the number of optimal sites you specified above, this section automatically generates the areas that need RHUs, denoted by a hexagon ID.")
-    recommend.recommend(os_df, rhus_per_city)
+            st.write("## Display Prioritized Sites")
+            st.write("Based on the number of optimal sites you specified above, this section automatically generates the areas that need RHUs, denoted by a hexagon ID.")
+            recommend.recommend(os_df, rhus_per_city)
