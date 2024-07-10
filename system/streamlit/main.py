@@ -14,20 +14,26 @@ import pickle
 
 
 st.title("I-HOPE")
-existing_rhus_df = 'health_facilities_with_coordinates.csv'
-df = pd.read_csv(existing_rhus_df)
-selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
-df = df[selected_columns]
-df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
-df = df.dropna()
 
-st.write("## System Description")
-text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
-st.write(text)
-st.write("## System Components:")
-st.write("### Existing RHUs:")
-st.write(df)
-st.map(df)
+# List all files in the current directory
+current_directory = os.getcwd()
+file_list = os.listdir(current_directory)
+st.write("Files in Current Directory:")
+for file in file_list:
+    existing_rhus_df = 'health_facilities_with_coordinates.csv'
+    if file == existing_rhus_df:
+        df = pd.read_csv(existing_rhus_df)
+        selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
+        df = df[selected_columns]
+        df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
+        df = df.dropna()
+        st.write("## System Description")
+        text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
+        st.write(text)
+        st.write("## System Components:")
+        st.write("### Existing RHUs:")
+        st.write(df)
+        st.map(df)
 
 # Define the list of regions
 regions = [
@@ -43,24 +49,26 @@ st.write("Select a region to see where you want to put up rural health units")
 if selected_region == "Region I":
     # execute BPNN application here
     # call model
-    cs_df = pd.read_csv('rg1candidate_sites.csv')
-    st.write(f"#### {len(cs_df['ID'])} Candidate Sites")
-    cs_df['ID'] = cs_df['ID'].astype(int)
-    st.write(cs_df)
+    if 'rg1candidate_sites.csv' in file_list:
+        cs_df = pd.read_csv('rg1candidate_sites.csv')
+        st.write(f"#### {len(cs_df['ID'])} Candidate Sites")
+        cs_df['ID'] = cs_df['ID'].astype(int)
+        st.write(cs_df)
 
 st.write("## Display Optimal Sites")
 st.write("Please input a number to begin the optimization process. You can only put a number less than or equal to the number of candidate sites specified above")
 num_optimal_sites = int(st.text_input("How many optimal sites would you want?", 1))
 st.write("You entered:", num_optimal_sites)
 if selected_region == "Region I":
-    raw_rg1_clustered = pd.read_csv("rg1_PCF.csv") # for finding optimal locations
-    neighbors_df = pd.read_csv('rg1_Neighbors.csv')
-    candidate_sites = pd.read_csv("rg1candidate_sites.csv")
-    neighbors_df.rename(columns={'fid': 'ID'}, inplace=True)
+    if "rg1_PCF.csv" and 'rg1_Neighbors.csv' in file_list:
+        raw_rg1_clustered = pd.read_csv("rg1_PCF.csv") # for finding optimal locations
+        neighbors_df = pd.read_csv('rg1_Neighbors.csv')
+        # candidate_sites = pd.read_csv("rg1candidate_sites.csv")
+        neighbors_df.rename(columns={'fid': 'ID'}, inplace=True)
     # raw_rg1_clustered = rg1_clustered_df
     raw_rg1_clustered = raw_rg1_clustered.drop(columns=['Neighbors'])
     # selected_facilities_df, hex_with_RHU, og_HCFAI, updated_HCFAI = optimal.optimize(raw_rg1_clustered, candidate_sites, neighbors_df, num_optimal_sites) 
-    selected_facilities_df, hex_with_RHU, og_HCFAI, updated_HCFAI = optimal.optimize(raw_rg1_clustered, candidate_sites, neighbors_df, num_optimal_sites)
+    selected_facilities_df, hex_with_RHU, og_HCFAI, updated_HCFAI = optimal.optimize(raw_rg1_clustered, cs_df, neighbors_df, num_optimal_sites)
     selected_facilities = list(set(selected_facilities_df['ID']))
     st.write(f"Original HCFAI: {og_HCFAI}")
     st.write(f"Updated HCFAI: {updated_HCFAI}")
@@ -72,13 +80,14 @@ st.write("Based on the number of optimal sites you specified above, this section
 os = list(set(selected_facilities_df['ID']))
 
 x = "rg1-clusters.csv"
-rg1_clustered_df = pd.read_csv(x)
-os_df, rhus_per_city = optimal.MCLP(os, rg1_clustered_df)
-# st.write(rhus_per_city)
-for key, value in rhus_per_city.items():
-    if value:
-        st.write(f"{key}: {value}")
+if x in file_list:
+    rg1_clustered_df = pd.read_csv(x)
+    os_df, rhus_per_city = optimal.MCLP(os, rg1_clustered_df)
+    # st.write(rhus_per_city)
+    for key, value in rhus_per_city.items():
+        if value:
+            st.write(f"{key}: {value}")
 
-st.write("## Display Prioritized Sites")
-st.write("Based on the number of optimal sites you specified above, this section automatically generates the areas that need RHUs, denoted by a hexagon ID.")
-recommend.recommend(os_df, rhus_per_city)
+    st.write("## Display Prioritized Sites")
+    st.write("Based on the number of optimal sites you specified above, this section automatically generates the areas that need RHUs, denoted by a hexagon ID.")
+    recommend.recommend(os_df, rhus_per_city)
