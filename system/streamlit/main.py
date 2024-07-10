@@ -14,12 +14,12 @@ st.title("I-HOPE")
 # List all files in the current directory
 current_directory = os.getcwd()
 file_list = os.listdir(current_directory)
-df = pd.read_csv(r'health_facilities_with_coordinates.csv')
+path='iHOPE/system/streamlit/'
+df = pd.read_csv('../streamlit/health_facilities_with_coordinates.csv')
 selected_columns = ['Facility Name', 'Region Name', 'Latitude', 'Longitude']
 df = df[selected_columns]
 df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
 df = df.dropna()
-# st.write(df)
 
 st.write("## System Description")
 text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
@@ -42,7 +42,7 @@ st.write("Select a region to see where you want to put up rural health units")
 if selected_region == "Region I":
     # execute BPNN application here
     # call model
-    cs_df = pd.read_csv('rg1candidate_sites.csv')
+    cs_df = pd.read_csv(r'rg1candidate_sites.csv')
     st.write(f"#### {len(cs_df['ID'])} Candidate Sites")
     cs_df['ID'] = cs_df['ID'].astype(int)
     st.write(cs_df)
