@@ -2,7 +2,7 @@ import streamlit as st
 import streamlit.components.v1 as components
 import pandas as pd
 import os
-import geopandas as gpd
+# import geopandas as gpd
 import folium
 from streamlit_folium import st_folium
 import optimal
@@ -13,8 +13,8 @@ html_file_path = "./qgis2web_2024_05_29-11_00_56_078368/index.html"
 gpkg_path = "../../CandidateSites/rg1_hexgrid.geojson"
 x = "../../CandidateSites/rg1-clusters.csv"
 rg1_clustered_df = pd.read_csv(x)
-hexagons = gpd.read_file(gpkg_path)
-print(hexagons)
+# hexagons = gpd.read_file(gpkg_path)
+# print(hexagons)
 
 st.title("I-HOPE")
 df = pd.read_csv('health_facilities_with_coordinates.csv')
