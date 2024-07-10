@@ -49,10 +49,13 @@ st.write("Select a region to see where you want to put up rural health units")
 if selected_region == "Region I":
     # execute BPNN application here
     # call model
-    cs_df = pd.read_csv(r'rg1candidate_sites.csv')
-    st.write(f"#### {len(cs_df['ID'])} Candidate Sites")
-    cs_df['ID'] = cs_df['ID'].astype(int)
-    st.write(cs_df)
+    candidate_sites_df='https://raw.githubusercontent.com/matereyes00/iHOPE/iHOPE_ver1.0/system/streamlit/rg1candidate_sites.csv'
+    candidate_sites_df_response = requests.get(candidate_sites_df)
+    if candidate_sites_df_response.status_code == 200:
+        cs_df = pd.read_csv(StringIO(candidate_sites_df_response.text))
+        st.write(f"#### {len(cs_df['ID'])} Candidate Sites")
+        cs_df['ID'] = cs_df['ID'].astype(int)
+        st.write(cs_df)
 
 st.write("## Display Optimal Sites")
 st.write("Please input a number to begin the optimization process. You can only put a number less than or equal to the number of candidate sites specified above")
