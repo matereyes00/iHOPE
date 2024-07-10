@@ -24,7 +24,7 @@ df = df.rename(columns={'Latitude': 'LAT', 'Longitude': 'LON'})
 df = df.dropna()
 
 st.write("## System Description")
-text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines."
+text = "iHOPE is a hybrid optimization and prioritization system that looks for new locations to put up rural health units in the Philippines. The user gets to select the region of their choice to select the number of RHUs to put up."
 st.write(text)
 st.write("## System Components:")
 # Display the DataFrame
@@ -42,13 +42,10 @@ regions = [
 selected_region = st.selectbox("Select a Region", regions)
 st.write(f"You selected: {selected_region}")
 st.write("## Display Candidate Sites")
+st.write("Select a region to see where you want to put up rural health units")
 if selected_region == "Region I":
     # execute BPNN application here
     # call model
-
-
-
-
 
     cs_df = pd.read_csv('../../CandidateSites/rg1candidate_sites.csv')
     st.write(f"#### {len(cs_df['ID'])} Candidate Sites")
@@ -56,6 +53,7 @@ if selected_region == "Region I":
     st.write(cs_df)
 
 st.write("## Display Optimal Sites")
+st.write("Please input a number to begin the optimization process. You can only put a number less than or equal to the number of candidate sites specified above")
 num_optimal_sites = int(st.text_input("How many optimal sites would you want?", 1))
 st.write("You entered:", num_optimal_sites)
 if selected_region == "Region I":
@@ -75,6 +73,7 @@ if selected_region == "Region I":
     st.write("""<div style="width:100%;text-align:center;"><a href="https://matereyes00.github.io/iHOPE/rg1map/"</a>Region 1</div>""", unsafe_allow_html=True)
 
 st.write("## Cities needing RHUs: ")
+st.write("Based on the number of optimal sites you specified above, this section automatically generates the number of RHUs needed in the cities")
 os = list(set(selected_facilities_df['ID']))
 # os_df = optimal.process_population_density(rg1_clustered_df, os)
 os_df, rhus_per_city = optimal.MCLP(os, rg1_clustered_df)
@@ -84,4 +83,5 @@ for key, value in rhus_per_city.items():
         st.write(f"{key}: {value}")
 
 st.write("## Display Prioritized Sites")
+st.write("Based on the number of optimal sites you specified above, this section automatically generates the areas that need RHUs, denoted by a hexagon ID.")
 recommend.recommend(os_df, rhus_per_city)
