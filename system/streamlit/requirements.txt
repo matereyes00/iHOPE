@@ -44,7 +44,7 @@ namex==0.0.8
 numpy==1.26.4
 opt-einsum==3.3.0
 optree==0.12.1
-ortools==9.10.4067
+ortools==9.5.2237
 packaging==24.0
 pandas==2.2.2
 pillow==10.3.0
