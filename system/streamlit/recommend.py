@@ -9,6 +9,7 @@ from sklearn.neural_network import MLPRegressor
 from sklearn.metrics import mean_squared_error, r2_score, mean_absolute_error
 import joblib
 import streamlit as st
+import os
 
 def recommend(os_df, rhus_per_city):
     weights = {
@@ -30,9 +31,15 @@ def recommend(os_df, rhus_per_city):
     X_new = scaler.transform(filtered_df[['popden_wom', 'popden_chi', 'popden_w_1', 'popden_you', 'popden_eld', 'popden_all']])
     for name in ['Neural_Network']:
         if name == "Neural_Network":
-            model = joblib.load(f'{name}_model.pkl')
-            preds = model.predict(X_new)
-            filtered_df[f'{name}_Prediction'] = preds
+            # Check if the file exists in the specified path
+            if os.path.exists(f'{name}_model.pkl'):
+                st.write("Scaler loaded successfully.")
+                model = joblib.load(f'{name}_model.pkl')
+                preds = model.predict(X_new)
+                filtered_df[f'{name}_Prediction'] = preds
+            else:
+                st.error(f"File '{file_path}' not found. Please check the path and ensure the file is in the correct directory.")
+            
 
     print(filtered_df[['ID', 'city_name', 'Priority_Score', 'Neural_Network_Prediction']])
     recommended_locations = {name: {} for name in ['Neural_Network']}

@@ -94,11 +94,9 @@ if selected_region == "Region I":
         if rg1_clusters_df_response.status_code == 200:
             rg1_clustered_df = pd.read_csv(StringIO(rg1_clusters_df_response.text))
             os_df, rhus_per_city = optimal.MCLP(os, rg1_clustered_df)
-            # st.write(rhus_per_city)
             for key, value in rhus_per_city.items():
                 if value:
                     st.write(f"{key}: {value}")
-
             st.write("## Display Prioritized Sites")
             st.write("Based on the number of optimal sites you specified above, this section automatically generates the areas that need RHUs, denoted by a hexagon ID.")
             recommend.recommend(os_df, rhus_per_city)
